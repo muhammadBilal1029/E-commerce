@@ -111,6 +111,10 @@ p {
     padding-top: 15px;
     padding-bottom: 15px;
   }
+  .cart-count{
+    top: -8px !important;
+    right: -10px !important;
+  }
   .col-md-4 {
     flex: 1 0 100%;
   }

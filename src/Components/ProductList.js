@@ -27,23 +27,23 @@ const ProductList = ({addToCart}) => {
       },
       {
         "id": 4,
-        "name": "Product 4",
-        "description": "Description for Product 4",
+        "name": "Shirt",
+        "description": "Elevate your wardrobe with our stylish shirts, crafted for comfort and sophistication.",
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSKt4W9kui6wJ23SgvOOc1cfx981d19I3VPQ&s",
         "price": 19.99
       },
       {
         "id": 5,
-        "name": "Product 5",
-        "description": "Description for Product 5",
-        "image": "https://t3.ftcdn.net/jpg/02/71/77/56/240_F_271775672_yo8ZgraN2IHGbfqP2k0PsLjwvmatUNUJ.jpg",
+        "name": "Sofa Cover",
+        "description": "Revitalize your sofa with our stylish, durable cover, protecting and enhancing your furniture.",
+        "image": "https://shoprolls.pk/wp-content/uploads/2023/07/Sofa-Cover-Black-Pattern.jpg",
         "price": 19.99
       },
       {
         "id": 6,
-        "name": "Product 6",
-        "description": "Description for Product 6",
-        "image": "https://t3.ftcdn.net/jpg/02/71/77/56/240_F_271775672_yo8ZgraN2IHGbfqP2k0PsLjwvmatUNUJ.jpg",
+        "name": "Blender Machine",
+        "description": "Blend effortlessly with our powerful, versatile blender machine, perfect for smoothies, soups.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzcaVNtRXprwgCCOxmW2Rd12wTdEbZGxAvHg&s",
         "price": 19.99
       },
 
@@ -51,7 +51,7 @@ const ProductList = ({addToCart}) => {
 
   return (
     <div>
-      <h2 style={{textAlign:'center' ,marginTop:'10px'}}>Products</h2>
+      <h2 style={{textAlign:'center' ,marginTop:'80px'}}>Products</h2>
       <div className="row">
         {products.map((product) => (
           <div className="col-md-4 px-4" key={product.id}>
