@@ -31,6 +31,16 @@ const Navbar = ({ cartItemCount }) => {
            </Link>
 
         </li>
+        <li className='nav-item'>
+            <Link className='nav-link' to="/signup" onClick={toggleMobileMenu}>
+                  Signup
+            </Link>
+        </li>
+        <li className='nav-item'>
+            <Link className='nav-link' to="/login" onClick={toggleMobileMenu}>
+                  Login
+            </Link>
+        </li>
       </ul>
       <ul className={`navbar-links desktop_links`}>
         <li className="nav-item">
@@ -44,6 +54,17 @@ const Navbar = ({ cartItemCount }) => {
            </div>
            </Link>
 
+
+        </li>
+        <li className='nav-item'>
+            <Link className='nav-link' to="/signup">
+                  Signup
+            </Link>
+        </li>
+        <li className='nav-item'>
+            <Link className='nav-link' to="/login">
+                  Login
+            </Link>
         </li>
       </ul>
      
