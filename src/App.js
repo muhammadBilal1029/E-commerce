@@ -65,6 +65,7 @@ const App = () => {
     setCartItems(updatedCartItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
+  
   return (
     <ThemeProvider theme={theme}>
     <Router>

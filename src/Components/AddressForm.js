@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import PaymentForm from './PaymentsForm';
 import Button from '@mui/material/Button';
 import ReviewOrder from '../Components/ReviewOrder'
+import Checkout from './Checkout';
 export default function AddressForm() {
     const [formData, setFormData] = useState({
         firstName: '',
@@ -27,6 +28,7 @@ export default function AddressForm() {
       const [errors, setErrors] = useState({});
       const [open, setOpen] = useState(false); 
       const [nextopen, setnextOpen] = useState(false); 
+      const [nextmoreopen, setnextmoreOpen] = useState(false); 
       const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -91,7 +93,25 @@ export default function AddressForm() {
       const handleClose = () => {
         setOpen(false); // Close the modal
         setnextOpen(false);
+        setnextmoreOpen(true);
       };
+      const handleplaceorder=()=>{
+          // Log to confirm function execution
+          console.log('Placing order and clearing cart data.');
+          
+          // Clear the cart data from local storage
+          localStorage.removeItem('cartItems'); // Ensure 'cartData' is the correct key
+          
+          // Log to confirm removal
+          console.log('Cart data removed from local storage.');
+          
+          // Optionally, you can verify if the data has been removed
+          console.log('Current local storage:', localStorage.getItem('cartData'));
+          setnextmoreOpen(false);
+          
+    
+
+      }
     
     //   const handlenextopen=()=>{
     //     setOpen(false);
@@ -237,7 +257,19 @@ export default function AddressForm() {
     </DialogContent>
     <DialogActions>
       <Button onClick={() => { setOpen(true); setnextOpen(false); }} color="secondary">Bcak</Button>
-      <Button  color="primary">Place Order</Button>
+      <Button onClick={handleClose} color="primary">Place Order</Button>
+    </DialogActions>
+  </Dialog>
+    <Dialog open={nextmoreopen} onClose={handleClose} maxWidth="sm" fullWidth>
+    <DialogTitle style={{textAlign:'center'}}>Check Out</DialogTitle>
+    <DialogContent>
+      <Checkout/>
+    </DialogContent>
+    <DialogActions>
+     
+      <Button onClick={
+       handleplaceorder
+      } color="primary">Close</Button>
     </DialogActions>
   </Dialog>
   </>
