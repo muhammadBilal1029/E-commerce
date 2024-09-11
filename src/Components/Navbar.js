@@ -7,9 +7,9 @@ const Navbar = ({ cartItemCount }) => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+  // const closeMobileMenu = () => {
+  //   setIsMobileMenuOpen(false);
+  // };
   return (
     <nav className="navbar-section">
       <Link className="navbar-brand" to="/">E-commerce</Link>
@@ -20,10 +20,10 @@ const Navbar = ({ cartItemCount }) => {
       </div>
       <ul className={`navbar-links ${isMobileMenuOpen ? 'open' : 'd-none'}`}>
         <li className="nav-item">
-          <Link className="nav-link" to="/" onClick={closeMobileMenu}>Home</Link>
+          <Link className="nav-link" to="/" onClick={toggleMobileMenu}>Home</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/cart" onClick={closeMobileMenu}>
+          <Link className="nav-link" to="/cart" onClick={toggleMobileMenu}>
           <div className="cart-container">
            <span className="cart-count">{cartItemCount}</span>
           Cart
@@ -32,6 +32,21 @@ const Navbar = ({ cartItemCount }) => {
 
         </li>
       </ul>
+      <ul className={`navbar-links desktop_links`}>
+        <li className="nav-item">
+          <Link className="nav-link" to="/">Home</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/cart">
+          <div className="cart-container">
+           <span className="cart-count">{cartItemCount}</span>
+          Cart
+           </div>
+           </Link>
+
+        </li>
+      </ul>
+     
     </nav>
   );
 };

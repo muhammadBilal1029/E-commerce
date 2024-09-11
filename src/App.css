@@ -157,6 +157,9 @@ p {
 .navbar-links{
   margin-right: 10px;
 }
+.desktop_links{
+  display: none;
+}
 }
 .cart{
   text-align: center;
