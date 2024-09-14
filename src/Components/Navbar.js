@@ -48,7 +48,10 @@ const Navbar = ({ cartItemCount }) => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/cart" onClick={toggleMobileMenu}>
+          <Link className="nav-link"  onClick={()=>{
+            toggleMobileMenu();
+            handleclickcart();
+          }}>
             <div className="cart-container">
               <span className="cart-count">{cartItemCount}</span>
               Cart
