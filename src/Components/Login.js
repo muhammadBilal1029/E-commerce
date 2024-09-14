@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 
+import axios from 'axios';
+import { ToastContainer,toast } from 'react-toastify';
 
 function Copyright() {
   return (
@@ -59,9 +61,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LogInSide() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState({
+    
+    email: "",
+    password: "",
+    
+  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await axios.post(
+        `${process.env.REACT_APP_Backend_URL}/api/auth/login`,
+        userData
+      );
+      const { token, userType } = response.data;
+      localStorage.setItem('token', token);
+      toast.success("Login successful!",{
+        autoClose:500,
+        onClose: () => {
+              if(userType==='Admin'){
+               window.location.href='/Admin';
+              }
+              else{
+                window.location.href='/';
+                            }
+        }
+      });
+      setUserData({
+        email: "",
+        password: "",
+        userType:''
+      })
+    } catch (err) {
+      console.error("Login error:", err.response ? err.response.data : err.message);
+        toast.error(err.response.data.msg,{
+          autoClose:1000
+        });
+      
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  };
+
   const classes = useStyles();
 
   return (
+    <>
+    <ToastContainer/>
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -73,7 +130,7 @@ export default function LogInSide() {
           <Typography component="h1" variant="h5">
       Login
           </Typography>
-          <form className={classes.form} noValidate>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -83,6 +140,8 @@ export default function LogInSide() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={userData.email}
+              onChange={handleChange}
               autoFocus
             />
             <TextField
@@ -95,11 +154,19 @@ export default function LogInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={userData.password}
+              onChange={handleChange}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="primary" checked />}
               label="Remember me"
             />
+            <div style={{position:'relative'}}>
+            {isLoading ? (
+            <div className='Loader'>
+              <div className='spinner'></div>
+            </div>
+          ) : (
             <Button
               type="submit"
               fullWidth
@@ -107,8 +174,11 @@ export default function LogInSide() {
               color="primary"
               className={classes.submit}
             >
-         Login
+              Login
             </Button>
+          )}
+      </div>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -128,5 +198,6 @@ export default function LogInSide() {
         </div>
       </Grid>
     </Grid>
+    </>
   );
 }
