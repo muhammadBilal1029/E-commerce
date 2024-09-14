@@ -17,7 +17,15 @@ const Navbar = ({ cartItemCount }) => {
       setIsAuthenticated(true);
     }
   }, []);
-
+  const handleclickcart=()=>{
+    const token =localStorage.getItem("token");
+    if(!token){
+      window.location.href='/signup';
+    }
+    else{
+        window.location.href='/cart';
+    }
+  }
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
@@ -77,7 +85,7 @@ const Navbar = ({ cartItemCount }) => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/cart">
+          <Link className="nav-link" onClick={handleclickcart}>
             <div className="cart-container">
               <span className="cart-count">{cartItemCount}</span>
               Cart
