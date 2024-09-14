@@ -221,6 +221,15 @@ p {
     padding-top: 15px;
     padding-bottom: 15px;
   }
+  .spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 8px solid #dc3545;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 50px !important;
+    animation: spin 1s linear infinite;
+  }
 
   .proceed-to-check{
     font-size: small;
