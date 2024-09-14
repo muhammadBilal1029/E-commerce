@@ -221,20 +221,6 @@ p {
     padding-top: 15px;
     padding-bottom: 15px;
   }
-  .spinner {
-    border: 8px solid rgba(0, 0, 0, 0.1) !important;
-    border-radius: 50% !important;
-    border-top: 8px solid #dc3545 !important;
-    width: 25px !important;
-    height: 25px !important;
-    margin-bottom: 50px !important;
-    animation: spin 1s linear infinite !important;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg) !important;}
-    100% { transform: rotate(360deg) !important; }
-  }
-  
   .proceed-to-check{
     font-size: small;
     font-weight:500;
