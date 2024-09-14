@@ -15,7 +15,7 @@ function Loader() {
     // />
     // </div>
     <div className="loader">
-    <BallTriangle
+    {/* <BallTriangle
     height={100}
     width={100}
     radius={5}
@@ -24,7 +24,8 @@ function Loader() {
     wrapperStyle={{}}
     wrapperClass=""
     visible={true}
-    />
+    /> */}
+      <div className='spinner'></div>
     {/* <div className="spinner"></div> */}
   </div>
   )
