@@ -3,19 +3,30 @@ import { Link } from "react-router-dom";
 
 
 const Navbar = ({ cartItemCount }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [isMobileMenuOpen, setIsMobileMenuOpen ] = useState(false);
+  const [navbarscrolled,setnavbarscrolled]=useState(false);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
   const [isAuthenticated, setIsAuthenticated] =  useState(false);
-  
+ 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
     }
+    const handlescroll=()=>{
+      if (window.scrollY > 50) {
+       setnavbarscrolled(true);
+      } else {
+        setnavbarscrolled(false);
+      }
+    }
+    window.addEventListener("scroll", handlescroll);
+    return () => {
+      window.removeEventListener("scroll", handlescroll);
+    };
   }, []);
   const handleclickcart=()=>{
     const token =localStorage.getItem("token");
@@ -32,7 +43,7 @@ const Navbar = ({ cartItemCount }) => {
   window.location.href="/login";
   };
   return (
-    <nav className="navbar-section">
+    <nav className={`navbar-section ${navbarscrolled ? "navbar-sticky " : ""}`}>
       <Link className="navbar-brand" to="/">
         E-commerce
       </Link>
