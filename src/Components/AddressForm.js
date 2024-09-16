@@ -41,7 +41,7 @@ export default function AddressForm() {
         event.preventDefault();
         const newErrors = {};
     
-        // Check for empty fields
+        
         Object.keys(formData).forEach((key) => {
           if (!formData[key] && key !== 'address2') {
             newErrors[key] = 'This field is required';
@@ -52,7 +52,7 @@ export default function AddressForm() {
         if (Object.keys(newErrors).length > 0) {
           setErrors(newErrors);
         } else {
-          // Proceed to the next step if no errors
+         
           console.log('Form Submitted', formData);
           setOpen(true);
           setnextOpen(false);
@@ -72,7 +72,7 @@ export default function AddressForm() {
       const handlePaymentSubmit = (paymentData) => {
         const newPaymentErrors = {};
         
-        // Validate payment form fields
+      
         Object.keys(paymentData).forEach((key) => {
           if (!paymentData[key]) {
             newPaymentErrors[key] = 'This field is required';
@@ -82,7 +82,7 @@ export default function AddressForm() {
         if (Object.keys(newPaymentErrors).length > 0) {
           setPaymentErrors(newPaymentErrors);
         } else {
-          // If no errors in the payment form, proceed to review
+        
           setPaymentErrors({});
           setOpen(false);
           setnextOpen(true);
@@ -91,32 +91,25 @@ export default function AddressForm() {
       };
     
       const handleClose = () => {
-        setOpen(false); // Close the modal
+        setOpen(false); 
         setnextOpen(false);
-        setnextmoreOpen(true);
       };
       const handleplaceorder=()=>{
-          // Log to confirm function execution
+          
           console.log('Placing order and clearing cart data.');
           
-          // Clear the cart data from local storage
-          localStorage.removeItem('cartItems'); // Ensure 'cartData' is the correct key
+       
+          localStorage.removeItem('cartItems'); 
           
-          // Log to confirm removal
           console.log('Cart data removed from local storage.');
           
-          // Optionally, you can verify if the data has been removed
+         
           console.log('Current local storage:', localStorage.getItem('cartData'));
           setnextmoreOpen(false);
+          window.location.href='/cart';
           
-    
-
       }
     
-    //   const handlenextopen=()=>{
-    //     setOpen(false);
-    //     setnextOpen(true);
-    //   }
 
   return (
     <>
@@ -257,7 +250,9 @@ export default function AddressForm() {
     </DialogContent>
     <DialogActions>
       <Button onClick={() => { setOpen(true); setnextOpen(false); }} color="secondary">Bcak</Button>
-      <Button onClick={handleClose} color="primary">Place Order</Button>
+      <Button onClick={() => {handleClose();
+                setnextmoreOpen(true);
+      }}color="primary">Place Order</Button>
     </DialogActions>
   </Dialog>
     <Dialog open={nextmoreopen} onClose={handleClose} maxWidth="sm" fullWidth>

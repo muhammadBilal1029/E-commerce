@@ -64,7 +64,7 @@ const ProductList = ({addToCart}) => {
   ]
 
   return (
-    <div>
+    <div className='products_section'>
       <h2 className='text-danger' style={{textAlign:'center' ,marginTop:'80px'}}>Products</h2>
       <div className="row">
         {products.map((product) => (

@@ -76,7 +76,7 @@ const Navbar = ({ cartItemCount }) => {
   return (
     <nav className={`navbar-section ${navbarscrolled ? "navbar-sticky " : ""}`}>
       <Link className="navbar-brand" to="/">
-        E-commerce
+        Shopping Store
       </Link>
       <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
         <span className="bar"></span>

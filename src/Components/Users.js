@@ -10,7 +10,7 @@ function Users({userdata,fetchUserData}) {
           console.error('Token is missing');
           return;
         }
-        console.log(`Deleting user with ID: ${userId}`);
+       
         await axios.delete(
             `${process.env.REACT_APP_Backend_URL}/api/Admin/users/${userId}`,
             {
@@ -40,7 +40,10 @@ function Users({userdata,fetchUserData}) {
        
           {userdata.map((user) => (
             <div className="datacontainer" key={user._id}>
-              <p>{user.name}</p>
+           
+                <p>{user.name}</p>
+                
+            
               <p>{user.email}</p>
               <p className="d-flex">{user.userType}  <button
                 className="deletebtn"
@@ -61,6 +64,7 @@ function Users({userdata,fetchUserData}) {
               </button></p>
     
              
+           
             </div>
           ))}
         </div>

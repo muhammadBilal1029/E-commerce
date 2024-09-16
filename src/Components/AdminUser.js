@@ -51,6 +51,7 @@ function AdminUser() {
 
   return (
     <>
+    <div className='admin_section'>
     <h1 className="admin-title">Admin Dashboard</h1>
     <div className="admin-container">
     {isAdmin && (
@@ -63,6 +64,7 @@ function AdminUser() {
       </details>
     </>
     )}
+  </div>
   </div>
   </>
   );
