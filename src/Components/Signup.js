@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { toast, ToastContainer } from "react-toastify";
+import Loader from "./Loader";
 import axios from "axios";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -66,6 +67,7 @@ export default function SignInSide() {
   const classes = useStyles();
   const [userType, setUserType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [componentloading,setcomponentloading]=useState(true);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -79,7 +81,15 @@ export default function SignInSide() {
       userType: userType,
     }));
   }, [userType]);
-
+  useEffect(() => {
+    const token =localStorage.getItem("token");
+    if(token){
+      window.location.href='/'
+    }
+    else{
+      setcomponentloading(false)
+    }
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -95,6 +105,7 @@ export default function SignInSide() {
       );
       const { token, userType } = response.data;
       localStorage.setItem("token", token);
+      
       toast.success("Signup successful!", {
         autoClose: 500,
         onClose: () => {
@@ -133,7 +144,9 @@ export default function SignInSide() {
       [name]: value,
     });
   };
-
+    if(componentloading){
+      return <Loader />; 
+    }
   return (
     <>
       <ToastContainer />

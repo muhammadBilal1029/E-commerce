@@ -1,6 +1,20 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import AddressForm from '../Components/AddressForm'
+import Loader from "./Loader";
 const Cart = ({ cartItems, removeFromCart ,updateQuantity}) => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+  const token =localStorage.getItem("token");
+  if(!token){
+    window.location.href='/login';
+  }
+  else{
+     setLoading(false);
+  }
+}, []);
+if (loading) {
+  return <Loader />; 
+}
   return (
     <div className="cart">
      

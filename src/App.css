@@ -215,6 +215,17 @@ p {
 
 
 @media (max-width:767px){
+  .users-table {
+    font-size: 0.8rem;
+  }
+
+  .admin-title {
+    font-size: 2rem;
+  }
+
+  .admin-subtitle {
+    font-size: 1.2rem;
+  }
   .navbar-section{
     padding-left: 10px;
     padding-right: 10px;
@@ -390,3 +401,119 @@ text-align: center;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.toggle-summary {
+  font-size: 1.25rem;
+  font-weight: 600;
+  background-color: #343a40;;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+ 
+  width: fit-content;
+  
+}
+.user-details[open] .toggle-summary {
+  background-color: #343a40;;
+}
+
+.users-table {
+ 
+  border-collapse: collapse;
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.user-details[open] .users-table {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.users-table thead {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.users-table th, .users-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
+.users-table th {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.users-table td {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+.order-details{
+  padding-right: 280px;
+}
+.not-found-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.not-found-content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.not-found-content h1 {
+  font-size: 8rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.not-found-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.not-found-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.home-link {
+  display: inline-block;
+  background-color: #343a40;
+  color: white;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+}
+

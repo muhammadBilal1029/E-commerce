@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +15,7 @@ import { makeStyles } from '@mui/styles';
 
 import axios from 'axios';
 import { ToastContainer,toast } from 'react-toastify';
+import Loader from './Loader';
 
 function Copyright() {
   return (
@@ -62,12 +63,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LogInSide() {
   const [isLoading, setIsLoading] = useState(false);
+  const [componentloading,setcomponentloading]=useState(true);
   const [userData, setUserData] = useState({
     
     email: "",
     password: "",
     
   });
+  useEffect(() => {
+    const token =localStorage.getItem("token");
+    if(token){
+      window.location.href='/'
+    }
+    else{
+         setcomponentloading(false);
+    }
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -115,7 +126,9 @@ export default function LogInSide() {
   };
 
   const classes = useStyles();
-
+  if(componentloading){
+    return <Loader/>
+  }
   return (
     <>
     <ToastContainer/>

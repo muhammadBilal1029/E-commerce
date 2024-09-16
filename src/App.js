@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
 import Navbar from "../src/Components/Navbar";
 import ProductList from "./Components/ProductList";
 import Cart from "../src/Components/Cart";
@@ -9,6 +9,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LogInSide from "./Components/Login";
 import AdminUser from "./Components/AdminUser";
 import Loader from "./Components/Loader";
+import NotFound from './Components/NotFound';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,9 @@ const App = () => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1000);
+   
     return () => clearTimeout(timer);
+
   }, []);
   const addToCart = (product) => {
     const token = localStorage.getItem("token");
@@ -58,10 +61,10 @@ const App = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#1976d2", // Custom primary color
+        main: "#1976d2", 
       },
       secondary: {
-        main: "#dc004e", // Custom secondary color
+        main: "#dc004e", 
       },
     },
   });
@@ -88,6 +91,7 @@ const App = () => {
     <>
       <ThemeProvider theme={theme}>
         <Router>
+          
           {loading ? (
             <Loader />
           ) : (
@@ -111,6 +115,9 @@ const App = () => {
                 <Route path="/signup" element={<SignInSide />}></Route>
                 <Route path="/login" element={<LogInSide />}></Route>
                 <Route path="/Admin" element={<AdminUser />}></Route>
+              
+                <Route path="/NotFound" element={<NotFound/>} />
+                <Route path="*" element={<Navigate to="/NotFound" />} />
               </Routes>
             </>
           )}
