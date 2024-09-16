@@ -9,7 +9,6 @@ function AdminUser() {
   const [userdata,setuserdata]=useState([]);
   const fetchUserData = async () => {
     const token = localStorage.getItem("token");
-    console.log('Retrieved Token:', token); 
     if (!token) {
       window.location.href = '/signup'; 
     } else {
@@ -28,6 +27,7 @@ function AdminUser() {
           setIsAdmin(true); 
           setuserdata(response.data.UserData);
         } else {
+         
           window.location.href = '/'; 
         
         }
