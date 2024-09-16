@@ -1,20 +1,48 @@
 import React, { useState, useEffect  } from "react";
-import { Link } from "react-router-dom";
-
+import { Link,useLocation } from "react-router-dom";
+import Loader from "./Loader";
+import axios from "axios";
 
 const Navbar = ({ cartItemCount }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen ] = useState(false);
   const [navbarscrolled,setnavbarscrolled]=useState(false);
+  const [loading, setLoading] = useState(true);
+  const location=useLocation();
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
   const [isAuthenticated, setIsAuthenticated] =  useState(false);
- 
-
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuthenticated(true);
+       setIsAuthenticated(true);
+        const checkUserType = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_Backend_URL}/api/Admin/AdminUsertype`, 
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.data.userType === 'Admin') {
+            setIsAdmin(true);
+          }
+        } catch (error) {
+          console.error('Error verifying token or user type', error);
+        }
+        finally {
+          setLoading(false);
+        }
+      }
+    
+      checkUserType();
+    }
+    else {
+      setLoading(false);
     }
     const handlescroll=()=>{
       if (window.scrollY > 50) {
@@ -42,6 +70,9 @@ const Navbar = ({ cartItemCount }) => {
     setIsAuthenticated(false);
   window.location.href="/login";
   };
+  if (loading) {
+    return <Loader/>;
+  }
   return (
     <nav className={`navbar-section ${navbarscrolled ? "navbar-sticky " : ""}`}>
       <Link className="navbar-brand" to="/">
@@ -53,12 +84,12 @@ const Navbar = ({ cartItemCount }) => {
         <span className="bar"></span>
       </div>
       <ul className={`navbar-links ${isMobileMenuOpen ? "open" : "d-none"}`}>
-        <li className="nav-item">
+        <li className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
           <Link className="nav-link" to="/" onClick={toggleMobileMenu}>
             Home
           </Link>
         </li>
-        <li className="nav-item">
+        <li className={`nav-item  ${location.pathname === '/cart' ? 'active' : ''}`}>
           <Link className="nav-link"  onClick={()=>{
             toggleMobileMenu();
             handleclickcart();
@@ -70,12 +101,22 @@ const Navbar = ({ cartItemCount }) => {
           </Link>
         </li>
         {isAuthenticated ? (
+          <>
           <li className="nav-item">
           <a className="nav-link" style={{cursor:'pointer'}} onClick={handleLogout}>Logout</a>
           </li>
+           
+          {isAdmin && (
+          <>
+            <li className={`nav-item ${location.pathname === '/Admin' ? 'active' : ''}`}><Link className="nav-link" onClick={toggleMobileMenu} to="/Admin">Admin Dashboard</Link></li>
+          </>
+        )}
+          
+           </>
         ) : (
           <>
-            <li className="nav-item">
+           
+            <li className={`nav-item  ${location.pathname === '/signup' ? 'active' : ''}`}>
               <Link
                 className="nav-link"
                 to="/signup"
@@ -84,7 +125,7 @@ const Navbar = ({ cartItemCount }) => {
                 Signup
               </Link>
             </li>
-            <li className="nav-item">
+            <li className={`nav-item  ${location.pathname === '/login' ? 'active' : ''}`}>
               <Link className="nav-link" to="/login" onClick={toggleMobileMenu}>
                 Login
               </Link>
@@ -93,12 +134,12 @@ const Navbar = ({ cartItemCount }) => {
         )}
       </ul>
       <ul className={`navbar-links desktop_links`}>
-        <li className="nav-item">
+        <li className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
           <Link className="nav-link" to="/">
             Home
           </Link>
         </li>
-        <li className="nav-item">
+        <li className={`nav-item  ${location.pathname === '/cart' ? 'active' : ''}`}>
           <Link className="nav-link" onClick={handleclickcart}>
             <div className="cart-container">
               <span className="cart-count">{cartItemCount}</span>
@@ -107,17 +148,25 @@ const Navbar = ({ cartItemCount }) => {
           </Link>
         </li>
         {isAuthenticated ? (
+          <>
           <li className="nav-item">
            <Link className="nav-link" style={{cursor:'pointer'}}  onClick={handleLogout}>Logout</Link>
           </li>
+           {isAdmin && (
+            <>
+              <li className={`nav-item ${location.pathname === '/Admin' ? 'active' : ''}`}><Link className="nav-link" to="/Admin">Admin Dashboard</Link></li>
+            </>
+          )}
+          </>
         ) : (
           <>
-            <li className="nav-item">
+            
+            <li className={`nav-item  ${location.pathname === '/signup' ? 'active' : ''}`}>
               <Link className="nav-link" to="/signup">
                 Signup
               </Link>
             </li>
-            <li className="nav-item">
+            <li className={`nav-item  ${location.pathname === '/login' ? 'active' : ''}`}>
               <Link className="nav-link" to="/login">
                 Login
               </Link>
