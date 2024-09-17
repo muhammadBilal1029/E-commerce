@@ -15,8 +15,9 @@ import { makeStyles } from "@mui/styles";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "./Loader";
 import axios from "axios";
-
+import { useGoogleLogin } from '@react-oauth/google';
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -68,6 +69,15 @@ export default function SignInSide() {
   const [userType, setUserType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [componentloading,setcomponentloading]=useState(true);
+
+const login = useGoogleLogin({
+  onSuccess: (codeResponse) => {
+    Cookies.set('profile', JSON.stringify(codeResponse));
+    window.location.href='/';
+  },
+  onError: (error) => console.log('Login Failed:', error),
+  redirect_uri: 'https://e-commerce1029.vercel.app'
+});
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -103,9 +113,9 @@ export default function SignInSide() {
         `${process.env.REACT_APP_Backend_URL}/api/auth/signup`,
         userData
       );
-      const { token, userType } = response.data;
+      const { token, userType,userProfile } = response.data;
       localStorage.setItem("token", token);
-      
+      Cookies.set('profile', JSON.stringify(userProfile));
       toast.success("Signup successful!", {
         autoClose: 500,
         onClose: () => {
@@ -147,6 +157,9 @@ export default function SignInSide() {
     if(componentloading){
       return <Loader />; 
     }
+ 
+     
+  
   return (
     <>
       <ToastContainer />
@@ -268,6 +281,8 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
+             
+                <div style={{textAlign:'center',marginTop:'10px'}}><button type="button" className="signupwithgoogle_btn" onClick={() => login()}>Sign in with Google 🚀 </button></div>   
               <Box mt={5}>
                 <Copyright />
               </Box>

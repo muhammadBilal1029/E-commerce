@@ -2,11 +2,14 @@ import React, { useState, useEffect  } from "react";
 import { Link,useLocation } from "react-router-dom";
 import Loader from "./Loader";
 import axios from "axios";
-
+import Cookies from 'js-cookie';
+import { googleLogout } from '@react-oauth/google';
+import Popup from 'reactjs-popup';
 const Navbar = ({ cartItemCount }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen ] = useState(false);
   const [navbarscrolled,setnavbarscrolled]=useState(false);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
   const location=useLocation();
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -15,6 +18,26 @@ const Navbar = ({ cartItemCount }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const profileData = Cookies.get('profile');
+   
+    if (profileData) {
+      try {
+        const parsedProfile = JSON.parse(profileData); 
+        const accessToken = parsedProfile.access_token;
+        axios
+          .get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => {
+            setProfile(res.data); 
+          })
+          .catch((err) => console.log("Error fetching profile data:", err));
+      } catch (error) {
+        console.error("Error parsing profile data:", error);
+      }
+    }
     if (token) {
        setIsAuthenticated(true);
         const checkUserType = async () => {
@@ -58,7 +81,8 @@ const Navbar = ({ cartItemCount }) => {
   }, []);
   const handleclickcart=()=>{
     const token =localStorage.getItem("token");
-    if(!token){
+    const profileData = Cookies.get('profile');
+    if(!token &&  !profileData){
       window.location.href='/signup';
     }
     else{
@@ -68,6 +92,8 @@ const Navbar = ({ cartItemCount }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    googleLogout();
+    Cookies.remove('profile');
   window.location.href="/login";
   };
   if (loading) {
@@ -116,20 +142,52 @@ const Navbar = ({ cartItemCount }) => {
         ) : (
           <>
            
-            <li className={`nav-item  ${location.pathname === '/signup' ? 'active' : ''}`}>
-              <Link
-                className="nav-link"
-                to="/signup"
-                onClick={toggleMobileMenu}
-              >
-                Signup
-              </Link>
-            </li>
-            <li className={`nav-item  ${location.pathname === '/login' ? 'active' : ''}`}>
-              <Link className="nav-link" to="/login" onClick={toggleMobileMenu}>
-                Login
-              </Link>
-            </li>
+           {profile ? (
+        <div className="nav-item profile-container">
+            <Popup
+                  trigger={
+                    <a className="nav-link" style={{ cursor: 'pointer' }}>
+                      <img
+                        src={profile.picture}
+                        alt="avatar"
+                        style={{ width: '30px', borderRadius: '50%', marginRight: '10px' }}
+                      />
+                     
+                    </a>
+                  }
+                  position="bottom right"
+                >
+                  <div className={`profile-popup`}>
+                    <img
+                      src={profile.picture}
+                      alt="avatar"
+                      style={{ width: '50px', borderRadius: '50%' }}
+                    />
+                    <p>Name: {profile.name}</p>
+                    <p>Email: {profile.email}</p>
+                    
+                    <button onClick={handleLogout} className="nav-link">
+                      Logout
+                    </button>
+                  </div>
+                </Popup>
+        </div>
+        
+      ) : (
+        <>
+        
+          <li className={`nav-item ${location.pathname === '/signup' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/signup">
+              Signup
+            </Link>
+          </li>
+          <li className={`nav-item ${location.pathname === '/login' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </li>
+        </>
+      )}
           </>
         )}
       </ul>
@@ -148,31 +206,74 @@ const Navbar = ({ cartItemCount }) => {
           </Link>
         </li>
         {isAuthenticated ? (
-          <>
-          <li className="nav-item">
-           <Link className="nav-link" style={{cursor:'pointer'}}  onClick={handleLogout}>Logout</Link>
+    <>
+      
+      <li className="nav-item">
+        <Link className="nav-link" style={{ cursor: 'pointer' }} onClick={handleLogout}>
+          Logout
+        </Link>
+      </li>
+
+     
+      {isAdmin && (
+        <li className={`nav-item ${location.pathname === '/Admin' ? 'active' : ''}`}>
+          <Link className="nav-link" to="/Admin">
+            Admin Dashboard
+          </Link>
+        </li>
+      )}
+    </>
+  ) : (
+    <>
+     
+      {profile ? (
+        <div className="nav-item profile-container">
+            <Popup
+                  trigger={
+                    <a className="nav-link" style={{ cursor: 'pointer' }}>
+                      <img
+                        src={profile.picture}
+                        alt="avatar"
+                        style={{ width: '30px', borderRadius: '50%', marginRight: '10px' }}
+                      />
+                     
+                    </a>
+                  }
+                  position="bottom right"
+                >
+                  <div className={`profile-popup`}>
+                    <img
+                      src={profile.picture}
+                      alt="avatar"
+                      style={{ width: '50px', borderRadius: '50%' }}
+                    />
+                    <p>Name: {profile.name}</p>
+                    <p>Email: {profile.email}</p>
+                    
+                    <button onClick={handleLogout} className="nav-link">
+                      Logout
+                    </button>
+                  </div>
+                </Popup>
+        </div>
+        
+      ) : (
+        <>
+        
+          <li className={`nav-item ${location.pathname === '/signup' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/signup">
+              Signup
+            </Link>
           </li>
-           {isAdmin && (
-            <>
-              <li className={`nav-item ${location.pathname === '/Admin' ? 'active' : ''}`}><Link className="nav-link" to="/Admin">Admin Dashboard</Link></li>
-            </>
-          )}
-          </>
-        ) : (
-          <>
-            
-            <li className={`nav-item  ${location.pathname === '/signup' ? 'active' : ''}`}>
-              <Link className="nav-link" to="/signup">
-                Signup
-              </Link>
-            </li>
-            <li className={`nav-item  ${location.pathname === '/login' ? 'active' : ''}`}>
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
-          </>
-        )}
+          <li className={`nav-item ${location.pathname === '/login' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </li>
+        </>
+      )}
+    </>
+  )}
       </ul>
     </nav>
   );

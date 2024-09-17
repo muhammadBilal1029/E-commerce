@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -64,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LogInSide() {
   const [isLoading, setIsLoading] = useState(false);
   const [componentloading,setcomponentloading]=useState(true);
+
   const [userData, setUserData] = useState({
     
     email: "",
@@ -78,6 +79,8 @@ export default function LogInSide() {
     else{
          setcomponentloading(false);
     }
+    
+
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -129,6 +132,9 @@ export default function LogInSide() {
   if(componentloading){
     return <Loader/>
   }
+  
+    
+   
   return (
     <>
     <ToastContainer/>
@@ -204,6 +210,8 @@ export default function LogInSide() {
                 </Link>
               </Grid>
             </Grid>
+           
+        
             <Box mt={5}>
               <Copyright />
             </Box>

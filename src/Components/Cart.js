@@ -1,11 +1,13 @@
 import React,{useState,useEffect} from "react";
 import AddressForm from '../Components/AddressForm'
 import Loader from "./Loader";
+import Cookies from "js-cookie";
 const Cart = ({ cartItems, removeFromCart ,updateQuantity}) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
   const token =localStorage.getItem("token");
-  if(!token){
+  const profileData = Cookies.get('profile');
+  if(!token && !profileData){
     window.location.href='/login';
   }
   else{

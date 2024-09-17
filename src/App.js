@@ -10,6 +10,7 @@ import LogInSide from "./Components/Login";
 import AdminUser from "./Components/AdminUser";
 import Loader from "./Components/Loader";
 import NotFound from './Components/NotFound';
+
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +87,7 @@ const App = () => {
     setCartItems(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-
+ 
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -97,6 +98,7 @@ const App = () => {
           ) : (
             <>
               <Navbar cartItemCount={getCartItemCount()} />
+             
               <Routes>
                 <Route
                   path="/"
