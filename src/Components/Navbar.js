@@ -131,7 +131,7 @@ const Navbar = ({ cartItemCount }) => {
           <li className="nav-item">
           <a className="nav-link" style={{cursor:'pointer'}} onClick={handleLogout}>Logout</a>
           </li>
-           
+    
           {isAdmin && (
           <>
             <li className={`nav-item ${location.pathname === '/Admin' ? 'active' : ''}`}><Link className="nav-link" onClick={toggleMobileMenu} to="/Admin">Admin Dashboard</Link></li>
@@ -177,12 +177,12 @@ const Navbar = ({ cartItemCount }) => {
         <>
         
           <li className={`nav-item ${location.pathname === '/signup' ? 'active' : ''}`}>
-            <Link className="nav-link" to="/signup">
+            <Link className="nav-link" to="/signup" onClick={toggleMobileMenu}>
               Signup
             </Link>
           </li>
           <li className={`nav-item ${location.pathname === '/login' ? 'active' : ''}`}>
-            <Link className="nav-link" to="/login">
+            <Link className="nav-link" to="/login" onClick={toggleMobileMenu}>
               Login
             </Link>
           </li>
